@@ -42,7 +42,7 @@
     "sequelize": "3.30.2",
     "thunkify": "2.1.2",
     "uuid": "3.1.0",
-    "winston": "^3.0.0-rc1"
+    "winston": "2.3.1"
   },
   "devDependencies": {
     "co": "4.5.1",

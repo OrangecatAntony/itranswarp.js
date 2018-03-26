@@ -98,7 +98,7 @@ function initVM(data) {
 
     <div id="vm" class="uk-width-1-1">
         <ul data-uk-tab class="uk-tab">
-            <li><a href="#0" onclick="location.assign('article_list')">{{ _('Articles') }}</a></li>
+            <!--<li><a href="#0" onclick="location.assign('article_list')">{{ _('Articles') }}</a></li>-->
             <li class="uk-active"><a href="#0">{{ _('Categories') }}</a></li>
         </ul>
         <div class="uk-margin">
@@ -109,19 +109,17 @@ function initVM(data) {
         <table class="uk-table uk-table-hover">
             <thead>
                 <tr>
-                    <th width="20%">{{ _('Name') }}</th>
-                    <th width="20%">{{ _('Tag') }}</th>
-                    <th width="30%">{{ _('Description') }}</th>
-                    <th width="15%">{{ _('Created At') }}</th>
-                    <th width="15%">&nbsp;</th>
+                    <th width="25%">{{ _('Big_category') }}</th>
+                    <th width="35%">{{ _('Description') }}</th>
+                    <th width="20%">{{ _('Created At') }}</th>
+                    <th width="20%">&nbsp;</th>
                 </tr>
             </thead>
             <tbody>
                 <tr v-for="c in categories">
                     <td>
                         <a v-text="c.name" :href="'/category/'+c.id" target="_blank"></a>
-                    </td>
-                    <td><span v-text="c.tag"></span></td>
+                    </td>       
                     <td><span v-text="c.description"></span></td>
                     <td><span v-text="c.created_at.toDateTime('yyyy-MM-dd hh:mm')"></span></td>
                     <td>

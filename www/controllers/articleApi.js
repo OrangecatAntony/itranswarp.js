@@ -212,7 +212,14 @@ module.exports = {
         if (ctx.request.query.format === 'html') {
             article.content = helper.md2html(article.content, true);
         }
-        ctx.rest(article);
+        let cate_obj = await categoryApi.getCategory(article.category_id);
+        ctx.rest({
+            'name': article.name,
+            'description': article.description,
+            'content': article.content,
+            'smallcategory_id' : article.category_id,
+            'bigcategory_id' : cate_obj.parent
+        });
     },
 
     'GET /api/articles': async function (ctx, next) {

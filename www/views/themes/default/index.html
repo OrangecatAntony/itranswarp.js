@@ -8,10 +8,46 @@
 {% block head %}
 
 {% set __sidebar_right__ = true %}
+<script>
+        $(function () {  
+   
+        $.get('/api/navlist', {}, function (data) {  
+  
+            //添加的时候先清除ul中的数据  
+            var $mynav = $(".mynav");
+            $mynav.empty();  
+            $mynav.append(
+                    "<li class=\"uk-active\">"+
+                        "<a href=\"#\">"+"分类" +"</a>"+
+                     "</li>"
+                );
+            //遍历向div中添加查询到的菜单  
+            for(let i = 0;i < data.length;i++){
+                $mynav.append(
+                    "<li class=\"uk-parent\">"+
+                        "<a href=\"#\">"+data[i].catname +"</a>"+
+                        "<ul class=\"uk-nav-sub\" id=\"bigcat" + i + "\"></ul>"+
+                     "</li>"
+                );
+                console.log(data[i].subcats);
+                for(let j = 0;j < data[i].subcats.length; j++){
+                    let smallid = "bigcat" + i;
+                    console.log(smallid);
+                    $mynav.find("#" + smallid + "").append(
+                        "<li><a href=\"#\" id=\""+data[i].subcats[j].subid+"\">"+data[i].subcats[j].subname+"</a></li>"
+                    );
+                }
+
+            }
+           
+        });    
+});
+</script>
 
 <style>
 .x-index-visible {
     display: block;
+    ul
 }
 </style>
 
@@ -24,36 +60,94 @@
             {% block index_top %}{{ __snippets__.index_top|safe }}{% endblock %}
         </div>
     </div>
+    
 
-    <h3>{{ _('Hot Articles') }}</h3>
-    <div style="max-width:640px;" class="uk-slidenav-position" data-uk-slideshow="{autoplay:true,pauseOnHover:false,kenburns:true}">
-        <ul class="uk-slideshow uk-overlay-active">
-            {% for a in hotArticles %}
-            <li>
-                <img src="{{ __cdn__ }}/files/attachments/{{ a.cover_id }}/l" width="640" height="360">
-                <div onclick="window.open('/article/{{ a.id }}')" style="cursor:pointer" class="uk-overlay-panel uk-overlay-background uk-overlay-bottom uk-overlay-slide-bottom">
-                    <h3>{{ a.name }}</h3>
-                    <p>{{ a.description }}</p>
-                </div>
+<!--新加導航欄-->
+<ul class="uk-nav uk-nav-parent-icon uk-nav-side uk-width-medium-1-5 uk-float-left mynav" data-uk-nav >
+        <li class="uk-active">
+            <a href="#">分类</a>
+        </li>
+        <li class="uk-parent">
+                <a href="#">嘿嘿</a>
+                <ul class="uk-nav-sub">
+                    <li><a href="#">子导航</a></li>
+                    <li><a href="#">子导航</a></li>
+                </ul>
             </li>
-            {% endfor %}
-        </ul>
-        <a href="#0" class="uk-slidenav uk-slidenav-contrast uk-slidenav-previous" data-uk-slideshow-item="previous" style="color: rgba(255,255,255,0.4)"></a>
-        <a href="#0" class="uk-slidenav uk-slidenav-contrast uk-slidenav-next" data-uk-slideshow-item="next" style="color: rgba(255,255,255,0.4)"></a>
-    </div>
+            <li class="uk-parent">
+                    <a href="#">前端</a>
+                    <ul class="uk-nav-sub">
+                        <li><a href="#">子导航</a></li>
+                        <li><a href="#">子导航</a></li>
+                    </ul>
+                </li>
+    </ul>
 
-    <h3>{{ _('Recent Articles') }}</h3>
-    {% for a in recentArticles %}
-    <div class="uk-margin uk-clearfix">
-        <div style="float:left">
+   <!-- <h3 style="float：right;">{{ _('Recent Articles') }}</h3>-->
+
+    <div class="uk-margin uk-clearfix  uk-width-medium-3-4 uk-float-right" style="margin-top:0px;">
+            <div id="vm" class="uk-width-1-1">
+                    <ul data-uk-tab class="uk-tab">
+                        <li class="uk-active"><a href="#0">最新</a></li>
+                        
+                    </ul>
+                    <div class="uk-margin">
+                        <a href="javascript:refresh()" class="uk-button uk-float-right"><i class="uk-icon-refresh"></i> {{ _('Refresh') }}</a>
+                       
+                    </div>
+            
+                    <table class="uk-table uk-table-hover">
+                        <thead>
+                            <tr>
+                               <!-- <th width="20%">{{ _('Cover') }}</th>-->
+                                <th width="40%">{{ _('Name') }}</th>
+                                <th width="20%">{{ _('Category') }} / {{ _('Author') }}</th>
+                                <th width="20%">Publish / Created</th>
+                                <th width="20%"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="a in articles">
+                                <!--<td>
+                                    <img :src="'/files/attachments/' + a.cover_id + '/s'" />
+                                </td>-->
+                                <td>
+                                    <p><a v-text="a.name" :href="'/article/' + a.id" target="_blank"></a></p>
+                                    <p v-text="a.description"></p>
+                                    <p><span v-for="t in a.tags" style="padding-right:1em;"><i class="uk-icon-tag"></i><span v-text="t"></span></span></p>
+                                </td>
+                                <td>
+                                    <p><i class="uk-icon-list"></i> <a :href="'/category/' + a.category_id" v-text="a.category_name" target="_blank"></a></p>
+                                    <p><i class="uk-icon-user"></i> <span v-text="a.user_name"></span></p>
+                                </td>
+                                <td>
+                                    <p><span v-text="a.publish_at.toDateTime()"></span></p>
+                                    <p><span v-text="a.created_at.toDateTime()"></span></p>
+                                </td>
+                                <td>
+                                    <a v-on:click="editArticle(a.id)" title="Edit Article" href="#0" class="x-btn"><i class="uk-icon-edit"></i></a>
+                                    <a v-on:click="deleteArticle(a.id)" title="Delete Article" href="#0" class="x-btn"><i class="uk-icon-trash"></i></a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <div v-if="page.totalItems===0" class="x-empty-list">
+                        <p>No category found.</p>
+                    </div>
+            
+                    <div is="pagination" v-bind:page="page"></div>
+                </div>
+       <!-- <div style="float:right;">
             <a href="/article/{{ a.id }}" target="_blank"><img src="{{ __cdn__ }}/files/attachments/{{ a.cover_id }}/s" /></a>
         </div>
         <div class="uk-margin" style="margin-left:180px;">
             <h3><a href="/article/{{ a.id }}" target="_blank">{{ a.name }}</a></h3>
             <p>{{ a.description }}</p>
-        </div>
+        </div>-->
     </div>
-    {% endfor %}
+</div>
+
 
     <div class="uk-grid">
         <div class="x-index-bottom uk-width-1-1">

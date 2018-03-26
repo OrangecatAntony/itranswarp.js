@@ -9,7 +9,7 @@
 $(function() {
     var id = '{{ id }}';
     if (id) {
-        getJSON('/api/categories/' + id, function (err, category) {
+        getJSON('/api/categories/' + id, function (err, category) {//从后端拿数据填到前端
             if (err) {
                 return showError(err);
             }
@@ -27,8 +27,8 @@ function initVM(category) {
     var vm = new Vue({
         el: '#vm',
         data: {
-            name: category.name,
-            tag: category.tag,
+            big_category: category.big_category,             
+            small_category: category.small_category,
             description: category.description
         },
         created: function () {
@@ -36,7 +36,7 @@ function initVM(category) {
             $('#vm').show();
         },
         methods: {
-            submit: function() {
+            submit: function() { //把页面上的数据传到后端
                 var that = this;
                 clearFormError();
                 that.$resource('{{ form.action }}').save(this.$data).then(function (resp) {
@@ -60,7 +60,7 @@ function initVM(category) {
 
     <div id="vm" class="uk-width-1-1">
         <ul class="uk-tab" data-uk-tab>
-            <li><a href="article_list">{{ _('Articles') }}</a></li>
+           <!-- <li><a href="article_list">{{ _('Articles') }}</a></li>-->
             <li class="uk-active"><a href="#0">{{ _('Categories') }}</a></li>
         </ul>
         <form v-on:submit.prevent="submit" class="uk-margin uk-form uk-form-stacked">
@@ -68,15 +68,15 @@ function initVM(category) {
             <fieldset>
                 <div class="uk-alert uk-alert-danger uk-hidden"></div>
                 <div class="uk-form-row">
-                    <label class="uk-form-label">{{ _('Name') }}:</label>
+                    <label class="uk-form-label">{{ _('Big_category') }}:</label>
                     <div class="uk-form-controls">
-                        <input v-model="name" name="name" type="text" maxlength="100" class="uk-width-1-1">
+                        <input v-model="big_category" name="big_category" type="text" maxlength="100" class="uk-width-1-1">
                     </div>
                 </div>
                 <div class="uk-form-row">
-                    <label class="uk-form-label">{{ _('Tag') }}:</label>
+                    <label class="uk-form-label">{{ _('Small_category') }}:</label>
                     <div class="uk-form-controls">
-                        <input v-model="tag" name="tag" type="text" maxlength="100" class="uk-width-1-1">
+                        <input v-model="small_category" name="small_category" type="text" maxlength="100" class="uk-width-1-1">
                     </div>
                 </div>
                 <div class="uk-form-row">

@@ -208,11 +208,16 @@
             });
         });
     </script>
+    
     <script>
         (function () {
             eval(decodeURIComponent('%69f%28%21get%43%6F%6F%6B%69%65(%27%61tsp%27))%73%65%74C%6F%6F%6B%69%65(%27%61tsp%27%2C%20%27{{ __time__ }}%5F%27%2Bnew%20Date%28%29.getTime%28%29%2C%20580%29%3B'));
         })();
     </script>
+    <!-->
+    动态加载导航栏    
+    <-->
+   
 
 {% block head %}<!-- head  -->{% endblock %}
 
@@ -299,7 +304,7 @@
                                     <li><a target="_blank" href="/me/profile"><i class="uk-icon-cog"></i> {{ _('Profile') }}</a></li>
                                     <li class="uk-nav-divider"></li>
                                 {% if __user__ and __user__.role <= 100 %}
-                                    <li><a target="_blank" href="/manage/"><i class="uk-icon-cogs"></i> {{ _('Manage') }}</a></li>
+                                    <li><a target="_blank" href="/manage/article/"><i class="uk-icon-cogs"></i> {{ _('Manage') }}</a></li>
                                     <li class="uk-nav-divider"></li>
                                 {% endif %}
                                 {% if __user__ and __user__.role == 1000 %}
@@ -343,7 +348,7 @@
                     </div>
                 {% endif %}
                 {% if __sidebar_right__ %}
-                    <div class="x-sidebar-right">
+                    <div class="x-sidebar-right" style="width:300px;">
                         <div class="x-sidebar-right-top">
                             {% block sidebar_right_top %}<!-- __snippets__.sidebar_right_top -->{{ __snippets__.sidebar_right_top|safe }}{% endblock %}
                         </div>

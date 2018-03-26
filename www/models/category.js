@@ -11,14 +11,17 @@ module.exports = {
         name: {
             type: dbtypes.STRING(100)
         },
-        tag: {
-            type: dbtypes.STRING(100)
+        parent: {
+            type: dbtypes.ID,
+            defaultValue: () => ''
         },
         display_order: {
-            type: dbtypes.BIGINT
+            type: dbtypes.BIGINT,
+            defaultValue: () => '-1'
         },
         description: {
-            type: dbtypes.STRING(1000)
+            type: dbtypes.STRING(1000),
+            defaultValue: () => ''
         }
     }
 };

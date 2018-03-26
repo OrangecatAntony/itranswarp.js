@@ -273,13 +273,13 @@ const schemas = {
             small_category: PROPERTY.SMALL_CATEGORY,
             description: PROPERTY.DESCRIPTION_OPTIONAL
         },
-        required: ['name', 'tag']
+        required: ['big_category']
     },
     updateCategory: {
         type: 'object',
         properties: {
-            name: PROPERTY.NAME,
-            tag: PROPERTY.TAG,
+            big_category: PROPERTY.NAME,
+            small_category: PROPERTY.SMALL_CATEGORY,
             description: PROPERTY.DESCRIPTION_OPTIONAL
         }
     },

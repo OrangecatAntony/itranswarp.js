@@ -80,7 +80,7 @@ module.exports = {
         }));
     },
 
-    'GET /manage/article/category_list': async (ctx, next) => {
+    'GET /manage/category': async (ctx, next) => {
         ctx.render('manage/article/category_list.html', await _getModel({
             pageIndex: helper.getPageIndex(ctx.request)
         }));
@@ -108,7 +108,7 @@ module.exports = {
         }));
     },
 
-    'GET /manage/article/create_category': async (ctx, next) => {
+    'GET /manage/create_category': async (ctx, next) => {
         ctx.render('manage/article/category_form.html', await _getModel({
             form: {
                 name: 'Create category',
@@ -118,7 +118,7 @@ module.exports = {
         }));
     },
 
-    'GET /manage/article/edit_category': async (ctx, next) => {
+    'GET /manage/edit_category': async (ctx, next) => {
         let id = _getId(ctx);
         ctx.render('manage/article/category_form.html', await _getModel({
             id: id,
