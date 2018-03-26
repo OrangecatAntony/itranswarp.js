@@ -106,18 +106,18 @@ function initVM(data) {
         <table class="uk-table uk-table-hover">
             <thead>
                 <tr>
-                    <th width="20%">{{ _('Cover') }}</th>
-                    <th width="35%">{{ _('Name') }}</th>
-                    <th width="15%">{{ _('Category') }} / {{ _('Author') }}</th>
-                    <th width="15%">Publish / Created</th>
-                    <th width="15%"></th>
+                   <!-- <th width="20%">{{ _('Cover') }}</th>-->
+                    <th width="40%">{{ _('Name') }}</th>
+                    <th width="20%">{{ _('Category') }} / {{ _('Author') }}</th>
+                    <th width="20%">Publish / Created</th>
+                    <th width="20%"></th>
                 </tr>
             </thead>
             <tbody>
                 <tr v-for="a in articles">
-                    <td>
+                    <!--<td>
                         <img :src="'/files/attachments/' + a.cover_id + '/s'" />
-                    </td>
+                    </td>-->
                     <td>
                         <p><a v-text="a.name" :href="'/article/' + a.id" target="_blank"></a></p>
                         <p v-text="a.description"></p>

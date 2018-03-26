@@ -33,14 +33,14 @@ function initVM(article, categories) {
     var vm = new Vue({
         el: '#vm',
         data: {
-            image: null,
+            //image: null,
             categories: categories,
             name: article.name,
             description: article.description,
             category_id: article.category_id,
             tags: article.tags,
-            publish_date: article.publish_at ? article.publish_at.toDate() : '',
-            publish_time: article.publish_at ? article.publish_at.toTime() : '',
+           // publish_date: article.publish_at ? article.publish_at.toDate() : '',
+           // publish_time: article.publish_at ? article.publish_at.toTime() : '',
             content: article.content || ''
         },
         created: function () {
@@ -55,9 +55,9 @@ function initVM(article, categories) {
                     category_id: this.category_id,
                     tags: this.tags
                 };
-                var pubDate = findForm().find('input[name=publish_date]').val().trim();
-                var pubTime = findForm().find('input[name=publish_time]').val().trim();
-                if (pubDate !== '' || pubTime !== '') {
+               // var pubDate = findForm().find('input[name=publish_date]').val().trim();
+              //  var pubTime = findForm().find('input[name=publish_time]').val().trim();
+                /*if (pubDate !== '' || pubTime !== '') {
                     var ts;
                     if (pubDate === '') {
                         throw { error: 'parameter:invalid', data: 'publish_date', message: 'Invalid publish date.'};
@@ -76,14 +76,14 @@ function initVM(article, categories) {
                     // adjust timezone:
                     ts = ts + (new Date()).getTimezoneOffset() * 60000;
                     data.publish_at = ts;
-                }
+                }*/
                 var content = $('#content-editor').val();
                 if (this.content !== content) {
                     data.content = content;
                 }
-                if (this.image !== null) {
+               /* if (this.image !== null) {
                     data.image = this.image;
-                }
+                }*/
                 return data;
             },
             submit: function () {
@@ -170,7 +170,7 @@ function initVM(article, categories) {
             <legend>{{ _(form.name) }}</legend>
             <fieldset>
                 <div class="uk-alert uk-alert-danger uk-hidden"></div>
-                <div class="uk-form-row">
+                <!--<div class="uk-form-row">
                     <label class="uk-form-label">Image:</label>
                     <div class="uk-form-controls">
                         <div id="image-preview" style="border: 1px solid #ccc; width:642px; height:362px; background-size:cover;"></div>
@@ -178,7 +178,7 @@ function initVM(article, categories) {
                     <div class="uk-form-controls">
                         <input id="file" type="file">
                     </div>
-                </div>
+                </div>-->
                 <div class="uk-form-row">
                     <label class="uk-form-label">{{ _('Name') }}:</label>
                     <div class="uk-form-controls">
@@ -207,13 +207,13 @@ function initVM(article, categories) {
                         <input v-model="tags" name="tags" type="text" class="uk-width-1-1" placeholder="tag1, tag2, tag3">
                     </div>
                 </div>
-                <div class="uk-form-row">
+                <!--<div class="uk-form-row">
                     <label class="control-label">Publish At:</label>
                     <div class="controls">
                         <input v-once v-model="publish_date" name="publish_date" type="text" class="uk-width-1-6" data-uk-datepicker="{format:'YYYY-MM-DD', i18n:{ months:['{{ _('January') }}' , '{{ _('February') }}' , '{{ _('March') }}' , '{{ _('April') }}' , '{{ _('May') }}' , '{{ _('June') }}' , '{{ _('July') }}' , '{{ _('August') }}' , '{{ _('September') }}' , '{{ _('October') }}' , '{{ _('November') }}' , '{{ _('December') }}'], weekdays:['{{ _('Sun') }}' , '{{ _('Mon') }}' , '{{ _('Tue') }}' , '{{ _('Wed') }}' , '{{ _('Thu') }}' , '{{ _('Fri') }}' , '{{ _('Sat') }}'] } }">
                         <input v-once v-model="publish_time" name="publish_time"type="text" data-uk-timepicker>
                     </div>
-                </div>
+                    </div>-->
                 <div class="uk-form-row">
                     <label class="control-label">Content:</label>
                     <div class="controls">

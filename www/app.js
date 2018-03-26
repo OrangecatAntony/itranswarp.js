@@ -194,7 +194,7 @@ app.use(async (ctx, next) => {
         path = request.path,
         isApi = path.substring(0, 5) === '/api/';
     // check if login required for management:
-    if (path.substring(0, 8) === '/manage/' && path !== '/manage/signin') {
+    if (path.substring(0, 8) === '/manage/' && path !== '/manage/signin' && path!= '/manage/register') {
         if (!ctx.state.__user__ || ctx.state.__user__.role > constants.role.CONTRIBUTOR) {
             response.redirect('/manage/signin');
             return;

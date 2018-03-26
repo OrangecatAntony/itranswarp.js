@@ -21,7 +21,7 @@ const defaultSettingDefinitions = {
             key: 'name',
             label: 'Name',
             description: 'Name of the website',
-            value: 'My Website',
+            value: 'We Share',
             type: 'text'
         },
         {

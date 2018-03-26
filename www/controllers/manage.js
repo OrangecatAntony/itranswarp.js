@@ -56,6 +56,10 @@ module.exports = {
         ctx.render('manage/signin.html', await _getModel());
     },
 
+    'GET /manage/register': async (ctx, next) => {
+        ctx.render('manage/register.html', await _getModel());
+    },
+
     // redirect:
     'GET /manage/': async (ctx, next) => {
         ctx.response.redirect('/manage/discuss/topic_list');

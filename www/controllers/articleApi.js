@@ -185,6 +185,7 @@ module.exports = {
     'GET /feed/articles': async (ctx, next) => {
         let rss = await cache.get(constants.cache.ARTICLE_FEED, async () => {
             return await _getFeed(ctx.request.host);
+        
         });
         ctx.response.set('Cache-Control', 'max-age: 3600');
         ctx.response.type = 'text/xml';
@@ -259,13 +260,13 @@ module.exports = {
         // check category id:
         await categoryApi.getCategory(data.category_id);
         // create image:
-        let attachment = await attachmentApi.createAttachment(
+       /* let attachment = await attachmentApi.createAttachment(
             user.id,
             data.name.trim(),
             data.description.trim(),
-            new Buffer(data.image, 'base64'),
+           // new Buffer(data.image, 'base64'),
             null,
-            true);
+            true);*/
         // create text:
         await textApi.createText(article_id, content_id, data.content);
         // create article:
@@ -274,7 +275,7 @@ module.exports = {
             user_id: user.id,
             user_name: user.name,
             category_id: data.category_id,
-            cover_id: attachment.id,
+            //cover_id: attachment.id,
             content_id: content_id,
             name: data.name.trim(),
             description: data.description.trim(),
@@ -331,7 +332,7 @@ module.exports = {
         if (data.publish_at !== undefined) {
             article.publish_at = data.publish_at;
         }
-        if (data.image) {
+       /* if (data.image) {
             // check image:
             let attachment = await attachmentApi.createAttachment(
                 user.id,
@@ -341,7 +342,7 @@ module.exports = {
                 null,
                 true);
             article.cover_id = attachment.id;
-        }
+        }*/
         if (data.content) {
             let content_id = nextId();
             await textApi.createText(article.id, content_id, data.content);

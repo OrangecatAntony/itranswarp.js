@@ -1,0 +1,91 @@
+{% extends './_manage.html' %}
+
+{% block title %}{{ _('Register') }}{% endblock %}
+
+{% block head %}
+{% set __show_navigations__ = false %}
+
+<script>
+$(function() {
+    var vm = new Vue({
+        el: '#vm',
+        data: {
+            username:'',
+            email: '',
+            passwd: ''
+        },
+        created: function () {
+            $('#vm').show();
+        },
+        methods: {
+            submit: function() {
+                var
+                    that = this,
+                    username = this.username.trim().toLowerCase(),
+                    email = this.email.trim().toLowerCase(),
+                    data = {
+                        username:username,
+                        email: email,
+                        passwd: this.passwd==='' ? '' : CryptoJS.SHA1(email + ':' + this.passwd).toString()
+                    };
+                clearFormError();
+                that.$resource('/api/Register').save(data).then(function (resp) {
+                    resp.json().then(function (result) {
+                        location.assign('/manage/signin');
+                    });
+                }, onJsonFormError);                     
+            }
+        }
+    });
+});
+</script>
+
+{% endblock %}
+
+{% block main %}
+    <div class="uk-width-3-10">&nbsp;</div>
+    <div class="uk-width-4-10">
+        <form id="vm" v-on:submit.prevent="submit" class="uk-form uk-form-stack">
+            <legend>{{ _('Please Register') }}</legend>
+            <div class="uk-alert uk-alert-danger uk-hidden"></div>
+            <div class="uk-form-row">
+                <label class="uk-form-label" for="username">{{ _('User name') }}:</label>
+                <div class="uk-form-controls">
+                    <div class="uk-form-icon">
+                        <i class="uk-icon-envelope-o"></i>
+                        <input v-model="username" type="text" id="username" name="username" maxlength="50" style="width:300px" placeholder="Username">
+                    </div>
+                </div>
+            </div>
+            <div class="uk-form-row">
+                <label class="uk-form-label" for="email">{{ _('Email') }}:</label>
+                <div class="uk-form-controls">
+                    <div class="uk-form-icon">
+                        <i class="uk-icon-envelope-o"></i>
+                        <input v-model="email" type="text" id="email" name="email" maxlength="50" style="width:300px" placeholder="email@example.com">
+                    </div>
+                </div>
+            </div>
+            <div class="uk-form-row">
+                <label class="uk-form-label" for="passwd">{{ _('Password') }}:</label>
+                <div class="uk-form-controls">
+                    <div class="uk-form-icon">
+                        <i class="uk-icon-lock"></i>
+                        <input v-model="passwd" type="password" id="passwd" name="passwd" maxlength="50" style="width:300px" placeholder="password">
+                    </div>
+                </div>
+            </div>
+            <div class="uk-form-row">
+                <div class="uk-form-controls">
+                    <button type="submit" class="uk-button uk-button-primary"><i class="uk-icon-sign-in"></i> {{ _('Register') }}</button>
+                </div>
+            </div>
+           <!-- <div class="uk-form-row">
+                <div class="uk-form-controls">
+                    <i class="uk-icon-question-circle"></i> <a href="/auth/forgot">{{ _('Forgot password') }}</a>
+                </div>
+            </div>-->
+        </form>
+    </div>
+    <div class="uk-width-3-10">&nbsp;</div>
+{% endblock %}

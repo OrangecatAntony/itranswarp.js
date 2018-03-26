@@ -230,7 +230,17 @@ const PROPERTY = {
         type: 'integer',
         minimum: 10,
         maximum: 1024
+    },
+    USERNAME: {
+        type: 'string',
+        minLength:1,
+        maxLength:30   
+    },
+    SMALL_CATEGORY: {
+        type: 'string',
+        minLength:1
     }
+    
 };
 
 const schemas = {
@@ -259,8 +269,8 @@ const schemas = {
     createCategory: {
         type: 'object',
         properties: {
-            name: PROPERTY.NAME,
-            tag: PROPERTY.TAG,
+            big_category: PROPERTY.NAME,
+            small_category: PROPERTY.SMALL_CATEGORY,
             description: PROPERTY.DESCRIPTION_OPTIONAL
         },
         required: ['name', 'tag']
@@ -345,11 +355,11 @@ const schemas = {
             name: PROPERTY.NAME,
             description: PROPERTY.DESCRIPTION,
             tags: PROPERTY.TAGS,
-            publish_at: PROPERTY.TIMESTAMP,
+            //publish_at: PROPERTY.TIMESTAMP,
             content: PROPERTY.TEXT,
-            image: PROPERTY.FILE
+            //image: PROPERTY.FILE
         },
-        required: ['category_id', 'name', 'description', 'content', 'image']
+        required: ['category_id', 'name', 'description', 'content']
     },
     updateArticle: {
         type: 'object',
@@ -547,7 +557,16 @@ const schemas = {
             image: PROPERTY.FILE
         },
         required: ['url', 'image']
+    },
+    register: {
+        type: 'object',
+        properties: {
+            username: PROPERTY.USERNAME,
+            email: PROPERTY.EMAIL,
+            passwd:PROPERTY.PASSWD
+        }
     }
+    
 }
 
 _.each(schemas, function (v, k) {

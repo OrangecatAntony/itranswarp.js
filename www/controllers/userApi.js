@@ -239,8 +239,10 @@ module.exports = {
             throw api.authFailed('passwd', 'Password signin is not allowed for this user.')
         }
         // check password:
-        if (! auth.verifyPassword(localuser.id, passwd, localuser.passwd)) {
+        if (passwd != localuser.passwd) {
+            logger.info(`${passwd},${localuser.passwd}`);
             throw api.authFailed('passwd', 'Bad password.');
+            
         }
         // make session cookie:
         let
@@ -253,6 +255,27 @@ module.exports = {
             expires: new Date(expires)
         });
         logger.debug(`set session cookie for user: ${user.email}: ${cookieStr}`);
+        ctx.rest(user);
+    },
+    'POST /api/Register': async (ctx, next) => {
+        /**
+         * 
+         * @param username:user name in lower case.
+         * @param email: Email address, in lower case.
+         * @param passwd: The password, 40-chars SHA1 string, in lower case.
+         */
+        ctx.validate('register');
+        let data = ctx.request.body;
+        let user = await User.create({
+            role: constants.role.EDITOR,
+            email: data.email,
+            name: data.username,
+            image_url:'/static/img/admin.png'
+        });
+        let localuser = await LocalUser.create({
+           user_id: user.id,
+           passwd: data.passwd
+        });
         ctx.rest(user);
     },
 
